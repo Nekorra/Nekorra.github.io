@@ -1,0 +1,254 @@
+<!-- Dashboard -->
+<div class="d-flex flex-column flex-lg-row h-lg-full bg-surface-secondary">
+  <!-- Vertical Navbar -->
+  <!-- Main content -->
+  <div class="h-screen flex-grow-1 overflow-y-lg-auto">
+    <!-- Header -->
+    <header class="bg-surface-primary border-bottom pt-6">
+      <div class="container-fluid">
+        <div class="mb-npx">
+          <div class="row align-items-center">
+            <div class="col-sm-6 col-12 mb-4 mb-sm-0">
+              <!-- Title -->
+              <h1 class="h2 mb-0 ls-tight">Dashboard</h1>
+            </div>
+            <!-- Actions -->
+          </div>
+          <!-- Nav -->
+          <ul class="nav nav-tabs mt-4 overflow-x border-0">
+            <li class="nav-item">
+              <a [ngClass]="activePage == 'awards' ? 'nav-link active': 'nav-link font-regular'" (click)="togglePage('awards')">AWARDS</a>
+            </li>
+            <li class="nav-item">
+              <a [ngClass]="(activePage == 'publications') ? 'nav-link active': 'nav-link font-regular'" (click)="togglePage('publications')">Publications</a>
+            </li>
+            <li class="nav-item">
+              <a [ngClass]="(activePage == 'research') ? 'nav-link active': 'nav-link font-regular'" (click)="togglePage('research')">Research</a>
+            </li>
+            <li class="nav-item">
+              <a [ngClass]="(activePage == 'students') ? 'nav-link active': 'nav-link font-regular'" (click)="togglePage('students')">Students</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <!-- Main -->
+
+    <section [hidden] = "!(activePage == 'awards')" id="awards">
+      <div class="grid-container">
+          <div class="grid-item">
+              <div class="card">
+                <div class="card-details">
+                  <p class="text-title" (click)="openDialog('awards', this.awardsData, null, 'add')">Add New Award</p>
+                </div>
+              </div>
+            </div>
+            <div *ngFor="let awards of awardsData; let ind = index;">
+              <div class="grid-item">
+                <div class="card" >
+                    <div class="card-details" (click)="editAwardsData(ind)">
+                      <img [src]="awards.img_name" style="height: 150px; margin: 0 auto;">
+                      <p class="text-title">{{awards.name}}</p>
+                      <p class="text-body">{{awards.timespan}}</p>
+                      <p class="about-body">{{awards.description}}</p>
+                      <p class="text-body" *ngIf="awards.earnings != ''">Earnings: {{awards.earnings}}</p>
+                    </div>
+                    <a (click)="removeAward(ind, 'awards')" class="card-button">Delete</a>
+                  </div>
+              </div>
+            </div>
+      </div>
+  </section>
+
+  <section [hidden] = "!(activePage == 'publications')" id = "publications">
+    
+    <div class="container-pub">
+      <div class="search-container">
+        <h1 class="title-pub">Journals Published: </h1>
+        <input type="text" class="search-input" placeholder="Search..." [(ngModel)]="searchJournals">
+        <button class="search-button">Search</button>
+      </div>
+      <div class="publications">
+        <table>
+          <thead>
+            <tr>
+              <th>Paper Topic</th>
+              <th>Number</th>
+              <th>Journal </th>
+              <th>People</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a><div style="color: red" (click)="openDialog('journals', this.journalsData, null, 'add')"> Add new Journal</div></a></td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+
+            <tr *ngFor="let journals of journalsData; let ind = index; ">
+              <td><a (click)="editJournalsData(ind)">{{journals.title}}</a> <button (click)="removeJournals(ind, 'journals')"> delete </button></td>
+              <td> {{journalsData.length-ind}}</td>
+              <td> {{journals.journal}} </td>
+              <td> {{journals.authors}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <br><br>
+
+    <div class="line"></div>
+
+    <br><br>
+
+    <!-- for Conferences -->
+    <div class="container-pub">
+      <div class="search-container">
+        <h1 class="title-pub">Conferences: </h1>
+        <input type="text" class="search-input" placeholder="Search..." [(ngModel)]="searchPublications">
+        <button class="search-button">Search</button>
+      </div>
+      <div class="publications">
+        <table>
+          <thead>
+            <tr>
+              <th>Conference Topic</th>
+              <th>Number</th>
+              <th>Year</th>
+              <th>Conference</th>
+              <th>People</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><a><div style="color: red" (click)="openDialog('publications', this.conferencesData, null, 'add')"> Add new Publication</div></a></td>
+              <td> </td>
+              <td> </td>
+              <td> </td>
+            </tr>
+            <tr *ngFor="let conferences of conferencesData | search: searchPublications; let ind = index">
+              <td><a (click)="editPublicationsData(ind)">{{conferences.title}}</a> <button (click)="removePublications(ind, 'publications')"> delete </button> </td>
+              <td>{{conferencesData.length - ind}}</td>
+              <td>{{conferences.year}}</td>
+              <td>{{conferences.journal}} </td>
+              <td>{{conferences.authors}}</td>
+            </tr>
+            
+            
+            <!-- Add more conferences here here -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <br><br>
+  </section>
+
+  <section [hidden] = "!(activePage == 'research')" id="research">
+
+    <div class="project-container"> 
+      <div class="project-card" (click)="openDialog('research', this.researchData,  null, 'add')">
+        <br>
+        <h2 class="project-title">Add Research</h2>
+        <p class="project-description"></p>
+        <br>
+      </div>
+      <div class="project-card" *ngFor = "let research of researchData; let ind = index" (click) = "editResearchData(ind)">
+        <ng-container >
+          <img *ngIf="research.img_name" class="project-image" [src]="research.img_name" alt="Research Project 1">
+          <br>
+          <h2 class="project-title">{{research.title}}</h2>
+          <p class="project-description">{{research.content}}</p>
+          <br>
+          <button class="project-read-more" (click)="removeResearch(ind, 'research')">Delete</button>
+        </ng-container>
+        
+      </div>
+    </div>
+  </section>
+
+  <section [hidden] = "!(activePage == 'students')" id="students">
+    <h1 class="title">PhD Students</h1>
+<div class="phd-grid">
+  <ng-container *ngFor="let peoples of phds">
+      <div class="people">
+        <img [src]="peoples.img_name" alt="Image 1" class="image">
+        <h3>{{peoples.name}}</h3>
+        <h6>{{peoples.research}}</h6>
+      </div>
+    </ng-container>
+  </div>
+  
+
+  <h1 class="title">Master Students</h1>
+  <div class="phd-grid">
+    <ng-container *ngFor="let peoples of masters">
+      <div class="people">
+        <img [src]="peoples.img_name" alt="Image 1" class="image">
+        <h3>{{peoples.name}}</h3>
+        <h6>{{peoples.research}}</h6>
+      </div>
+   </ng-container>
+  </div>
+
+  <h1 class="title">Undergraduate Students</h1>
+  <div class="phd-grid">
+    <ng-container *ngFor="let peoples of undergraduates">
+      <div class="people">
+        <h3>{{peoples}}</h3>
+      </div>
+    </ng-container>
+  </div>
+  
+  <h1 class="title">Post-Doc Alumni</h1>
+  <div class="postdoc-grid">
+    <ng-container *ngFor="let peoples of post_doc_alumni">
+        <div class="people2">
+          <img [src]="peoples.img_name" alt="Image 1" class="image2">
+        </div>
+        <div class="about1">
+          <div class="about2">
+            <h1>{{peoples.name}}</h1>
+            <h1>Current job: {{peoples.job}}</h1>
+          </div>
+        </div>      
+    </ng-container>
+  </div>
+
+  <br> <br> <br>
+  <h1 class="title">PhD Alumni</h1>
+  <div class="postdoc-grid">
+    
+    <ng-container *ngFor="let peoples of phd_alumni" >
+      <div class="people2">
+        <img [src]="peoples.img_name" alt="Image 1" class="image2">
+      </div>
+      <div class="about1">
+        <div class="about3">
+          <h1>{{peoples.name}}</h1>
+          <h1>PhD Thesis: {{peoples.thesis}}</h1>
+          <h1>{{peoples.job}}</h1>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+
+  <br> <br> <br>
+  <h1 class="title">MS Alumni</h1>
+  <div class="postdoc-grid">
+
+    <ng-container *ngFor="let peoples of ms_alumni">
+      <div class="people2">
+        <img [src]="peoples.img_name" alt="Image 1" class="image2">
+      </div>
+      <div class="about1">
+        <div class="about3">
+          <h1>{{peoples.name}}</h1>
+          <h1>MS Thesis: {{peoples.thesis}}</h1>
+          <h1>{{peoples.job}}</h1>
+        </div>
+      </div>
+    </ng-container>
+</div>
