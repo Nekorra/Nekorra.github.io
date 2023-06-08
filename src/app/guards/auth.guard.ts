@@ -18,7 +18,7 @@ export class AuthGuard implements CanActivate {
       const isAuthenticated = user ? true : false;
       if (!isAuthenticated) {
         alert('You must be authenticated in order to access this page');
-        this.router.navigate(['Professor-Website/home'])
+        this.router.navigate(['home'])
       }
       return isAuthenticated;
   

@@ -13,14 +13,14 @@ import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'Professor-Website/awards', component: AwardsComponent },
-  { path: 'Professor-Website/home', component: HomeComponent },
-  { path: 'Professor-Website/publications', component: PublicationsComponent },
-  { path: 'Professor-Website/research', component: ResearchComponent }, 
-  { path: 'Professor-Website/students', component: StudentsComponent },
-  { path: 'Professor-Website/login', component: LoginComponent },
-  { path: 'Professor-Website/dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
-  { path: 'Professor-Website/cv', component: CvComponent},
+  { path: 'awards', component: AwardsComponent },
+  { path: 'home', component: HomeComponent },
+  { path: 'publications', component: PublicationsComponent },
+  { path: 'research', component: ResearchComponent }, 
+  { path: 'students', component: StudentsComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: 'cv', component: CvComponent},
 ];
 
 @NgModule({

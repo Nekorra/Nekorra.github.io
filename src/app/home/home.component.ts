@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
   }
 
   routeLogin() {
-    this.router.navigate(['Professor-Website/login']);
+    this.router.navigate(['login']);
   }
 
   async getData() {
